@@ -1,0 +1,630 @@
+/* =========================================================
+   1. HEADER
+========================================================= */
+
+.ld-header {
+  width: 100%;
+  background: #bfe3f5;
+
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  border-bottom: 1px solid rgba(15, 98, 254, 0.1);
+
+  box-shadow:
+    0 4px 18px rgba(15, 98, 254, 0.08);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+
+/* =========================================================
+   2. HEADER CONTAINER
+========================================================= */
+
+.ld-header-inner {
+  width: 100%;
+  max-width: 1450px;
+  min-height: 82px;
+
+  margin: 0 auto;
+  padding: 0 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 30px;
+}
+
+
+/* =========================================================
+   3. LOGO
+========================================================= */
+
+.ld-logo {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  text-decoration: none;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   LOGO SQUARE
+========================================================= */
+
+.ld-logo-square {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: linear-gradient(
+    135deg,
+    #0f62fe 0%,
+    #1d4ed8 55%,
+    #22c1c3 100%
+  );
+
+  color: #ffffff;
+
+  font-size: 19px;
+  font-weight: 800;
+
+  letter-spacing: 1px;
+
+  box-shadow:
+    0 6px 16px rgba(15, 98, 254, 0.25);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+/* Hover logo */
+
+.ld-logo:hover .ld-logo-square {
+  transform: translateY(-2px) scale(1.05);
+
+  box-shadow:
+    0 9px 22px rgba(15, 98, 254, 0.35);
+}
+
+
+/* =========================================================
+   LOGO TEXT
+========================================================= */
+
+.ld-logo-text {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+
+  line-height: 1.2;
+}
+
+
+/* Tên thương hiệu */
+
+.ld-logo-title {
+  color: #12375b;
+
+  font-size: 18px;
+  font-weight: 800;
+
+  letter-spacing: -0.2px;
+
+  white-space: nowrap;
+
+  transition: color 0.25s ease;
+}
+
+
+/* Slogan */
+
+.ld-logo-subtitle {
+  margin-top: 5px;
+
+  color: #52718d;
+
+  font-size: 11px;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+
+/* Hover title */
+
+.ld-logo:hover .ld-logo-title {
+  color: #0f62fe;
+}
+
+
+/* =========================================================
+   4. NAVIGATION
+========================================================= */
+
+.ld-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  flex: 1;
+}
+
+
+/* =========================================================
+   NAVIGATION LINK
+========================================================= */
+
+.ld-nav-link {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 42px;
+
+  padding: 0 12px;
+
+  color: #24445f;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  border-radius: 9px;
+
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+
+/* =========================================================
+   UNDERLINE EFFECT
+========================================================= */
+
+.ld-nav-link::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 4px;
+
+  width: 0;
+  height: 3px;
+
+  border-radius: 10px;
+
+  background: linear-gradient(
+    90deg,
+    #0f62fe,
+    #22c1c3
+  );
+
+  transform: translateX(-50%);
+
+  transition: width 0.25s ease;
+}
+
+
+/* =========================================================
+   NAVIGATION HOVER
+========================================================= */
+
+.ld-nav-link:hover {
+  color: #0f62fe;
+
+  background: rgba(255, 255, 255, 0.35);
+
+  transform: translateY(-1px);
+}
+
+
+.ld-nav-link:hover::after {
+  width: 55%;
+}
+
+
+/* =========================================================
+   ACTIVE NAVIGATION
+========================================================= */
+
+.ld-nav-link--active {
+  color: #0f62fe;
+
+  background: rgba(255, 255, 255, 0.42);
+}
+
+
+.ld-nav-link--active::after {
+  width: 55%;
+}
+
+
+/* =========================================================
+   5. AUTH AREA
+========================================================= */
+
+.ld-header-auth {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   AUTH BUTTON COMMON
+========================================================= */
+
+.ld-header-btn {
+  min-width: 100px;
+  height: 42px;
+
+  padding: 0 17px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+.ld-header-btn--ghost {
+  color: #0f62fe;
+
+  background: rgba(255, 255, 255, 0.45);
+
+  border: 1.5px solid rgba(15, 98, 254, 0.65);
+
+  box-shadow:
+    0 3px 10px rgba(15, 98, 254, 0.06);
+}
+
+
+/* Login hover */
+
+.ld-header-btn--ghost:hover {
+  color: #ffffff;
+
+  background: #0f62fe;
+
+  border-color: #0f62fe;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 7px 16px rgba(15, 98, 254, 0.22);
+}
+
+
+/* =========================================================
+   REGISTER BUTTON
+========================================================= */
+
+.ld-header-btn--solid {
+  color: #ffffff;
+
+  border: 1.5px solid transparent;
+
+  background: linear-gradient(
+    135deg,
+    #0f62fe 0%,
+    #1d4ed8 55%,
+    #22c1c3 100%
+  );
+
+  box-shadow:
+    0 5px 14px rgba(15, 98, 254, 0.25);
+}
+
+
+/* Register hover */
+
+.ld-header-btn--solid:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(15, 98, 254, 0.35);
+
+  filter: brightness(1.05);
+}
+
+
+/* =========================================================
+   BUTTON ACTIVE
+========================================================= */
+
+.ld-header-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+
+/* =========================================================
+   6. RESPONSIVE - LAPTOP
+========================================================= */
+
+@media (max-width: 1200px) {
+
+  .ld-header-inner {
+    padding: 0 20px;
+
+    gap: 18px;
+  }
+
+
+  .ld-nav {
+    gap: 2px;
+  }
+
+
+  .ld-nav-link {
+    padding: 0 8px;
+
+    font-size: 13px;
+  }
+
+
+  .ld-logo-title {
+    font-size: 16px;
+  }
+
+
+  .ld-logo-subtitle {
+    font-size: 10px;
+  }
+
+
+  .ld-header-btn {
+    min-width: 90px;
+
+    padding: 0 13px;
+
+    font-size: 12px;
+  }
+
+}
+
+
+/* =========================================================
+   7. RESPONSIVE - TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .ld-header-inner {
+    min-height: auto;
+
+    padding-top: 13px;
+    padding-bottom: 13px;
+
+    flex-wrap: wrap;
+  }
+
+
+  .ld-logo {
+    order: 1;
+  }
+
+
+  .ld-header-auth {
+    order: 2;
+
+    margin-left: auto;
+  }
+
+
+  .ld-nav {
+    order: 3;
+
+    width: 100%;
+
+    flex-basis: 100%;
+
+    justify-content: center;
+
+    padding-top: 8px;
+
+    border-top: 1px solid rgba(15, 98, 254, 0.1);
+  }
+
+}
+
+
+/* =========================================================
+   8. RESPONSIVE - MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .ld-header {
+    position: relative;
+  }
+
+
+  .ld-header-inner {
+    padding: 12px 16px;
+
+    gap: 12px;
+  }
+
+
+  /* Logo */
+
+  .ld-logo-square {
+    width: 45px;
+    height: 45px;
+
+    border-radius: 12px;
+
+    font-size: 16px;
+  }
+
+
+  .ld-logo-title {
+    font-size: 15px;
+  }
+
+
+  .ld-logo-subtitle {
+    font-size: 9px;
+  }
+
+
+  /* Navigation scroll ngang */
+
+  .ld-nav {
+    justify-content: flex-start;
+
+    overflow-x: auto;
+
+    padding: 10px 0 3px;
+
+    scrollbar-width: none;
+  }
+
+
+  .ld-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+
+  .ld-nav-link {
+    flex-shrink: 0;
+
+    min-height: 38px;
+
+    padding: 0 10px;
+
+    font-size: 12px;
+  }
+
+
+  /* Auth */
+
+  .ld-header-btn {
+    min-width: auto;
+
+    height: 38px;
+
+    padding: 0 12px;
+
+    font-size: 11px;
+
+    border-radius: 9px;
+  }
+
+}
+
+
+/* =========================================================
+   9. RESPONSIVE - SMALL MOBILE
+========================================================= */
+
+@media (max-width: 520px) {
+
+  .ld-header-inner {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+
+  .ld-logo-square {
+    width: 42px;
+    height: 42px;
+  }
+
+
+  .ld-logo-title {
+    font-size: 14px;
+  }
+
+
+  /* Ẩn slogan để tránh chật */
+
+  .ld-logo-subtitle {
+    display: none;
+  }
+
+
+  .ld-header-auth {
+    gap: 6px;
+  }
+
+
+  .ld-header-btn {
+    height: 36px;
+
+    padding: 0 9px;
+
+    font-size: 10px;
+  }
+
+
+  .ld-nav-link {
+    font-size: 11px;
+
+    padding: 0 9px;
+  }
+
+}
+
+
+/* =========================================================
+   10. ACCESSIBILITY
+========================================================= */
+
+.ld-logo:focus-visible,
+.ld-nav-link:focus-visible,
+.ld-header-btn:focus-visible {
+  outline: 3px solid rgba(15, 98, 254, 0.3);
+
+  outline-offset: 3px;
+}

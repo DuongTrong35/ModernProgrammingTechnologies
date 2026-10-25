@@ -1,0 +1,327 @@
+.ld-footer {
+  width: 100%;
+  /* margin-top: 40px; */
+  background: linear-gradient(135deg, #0f172a 0%, #111827 50%, #172033 100%);
+  color: #ffffff;
+  padding: 55px 0 0;
+}
+
+/* ================= CONTAINER ================= */
+
+.ld-footer-container {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.3fr;
+  gap: 55px;
+
+  padding-bottom: 45px;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.ld-footer-brand {
+  max-width: 280px;
+}
+
+.ld-footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 18px;
+
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+
+/* Logo KB */
+
+.ld-footer-logo-icon {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: linear-gradient(135deg, #2563eb, #22c1c3);
+
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+
+  box-shadow: 0 5px 18px rgba(37, 99, 235, 0.3);
+}
+
+
+/* Mô tả */
+
+.ld-footer-description {
+  margin: 0 0 20px;
+
+  color: #94a3b8;
+
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   SOCIAL
+========================================================= */
+
+.ld-footer-social {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ld-footer-social a {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  color: #94a3b8;
+
+  text-decoration: none;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.ld-footer-social a:hover {
+  transform: translateY(-4px);
+
+  background: #2563eb;
+  border-color: #2563eb;
+
+  color: #ffffff;
+
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.3);
+}
+
+
+/* =========================================================
+   FOOTER COLUMNS
+========================================================= */
+
+.ld-footer-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.ld-footer-column h3 {
+  position: relative;
+
+  margin: 3px 0 22px;
+
+  padding-bottom: 10px;
+
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 700;
+}
+
+
+/* Gạch xanh nhỏ dưới tiêu đề */
+
+.ld-footer-column h3::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+
+  width: 32px;
+  height: 3px;
+
+  border-radius: 10px;
+
+  background: linear-gradient(90deg, #3b82f6, #22c1c3);
+}
+
+
+/* ================= LINK ================= */
+
+.ld-footer-column > a {
+  position: relative;
+
+  margin-bottom: 12px;
+
+  color: #94a3b8;
+
+  font-size: 14px;
+
+  text-decoration: none;
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.ld-footer-column > a:hover {
+  color: #60a5fa;
+  transform: translateX(5px);
+}
+
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+.ld-footer-contact p {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  margin: 0 0 15px;
+
+  color: #94a3b8;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.ld-footer-contact i {
+  width: 18px;
+
+  margin-top: 2px;
+
+  color: #60a5fa;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   FOOTER BOTTOM
+========================================================= */
+
+.ld-footer-bottom {
+  width: min(1180px, calc(100% - 48px));
+
+  margin: 0 auto;
+
+  padding: 22px 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ld-footer-bottom p {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+}
+
+.ld-footer-bottom strong {
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+
+/* Link bottom */
+
+.ld-footer-bottom-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ld-footer-bottom-links span {
+  color: #475569;
+}
+
+.ld-footer-bottom-links a {
+  color: #64748b;
+
+  font-size: 13px;
+
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+.ld-footer-bottom-links a:hover {
+  color: #60a5fa;
+}
+
+
+/* =========================================================
+   RESPONSIVE - TABLET
+========================================================= */
+
+@media (max-width: 950px) {
+
+  .ld-footer-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 60px;
+  }
+
+  .ld-footer-brand {
+    max-width: 100%;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .ld-footer {
+    padding-top: 40px;
+  }
+
+  .ld-footer-container {
+    width: calc(100% - 36px);
+
+    grid-template-columns: 1fr;
+
+    gap: 35px;
+
+    padding-bottom: 35px;
+  }
+
+  .ld-footer-bottom {
+    width: calc(100% - 36px);
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    text-align: center;
+  }
+}
