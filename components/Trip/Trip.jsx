@@ -14,13 +14,6 @@ function Trip() {
   const router = useRouter();
   const diemdi = searchParams.get("diemdi");
   const diemden = searchParams.get("diemden");
-  // const navigate = useNavigate();
-  //  const { state } = useLocation();
-  // const id = state?.id;
-  // console.log("Gửi qua:", id);
-
-  // const { id } = useParams();
-  // const id = "PTHCMX1";
   const [dstrip, setdstrip] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -30,18 +23,12 @@ function Trip() {
     const result = fakeTripData.filter(
       (trip) => trip.diemdi === diemdi && trip.diemden === diemden
     );
-
     setdstrip(result);
     setLoading(false);
   }, [diemdi, diemden]);
-  // const [diadiem, setdiadiem] = useState({
-  //   diemden: "",
-  //   diemdi: "",
-  // });
   return (
     <>
       <Header />
-
       <main className="ld-maintrip">
         <section className="ld-hero">
           <div className="ld-hero-banner">
@@ -86,13 +73,6 @@ function Trip() {
           <h1 className="title">
             {dstrip[0]?.diemdi} - {dstrip[0]?.diemden} ({dstrip.length})
           </h1>
-
-          {/* <div className="filters">
-            <button className="filter-btn">Giá rẻ bất ngờ</button>
-            <button className="filter-btn">Giờ khởi hành</button>
-            <button className="filter-btn">Ghế trống</button>
-          </div> */}
-
           {dstrip.length > 0 &&
             dstrip.map((trip, index) => (
               <div key={index} className="card">
@@ -132,22 +112,10 @@ function Trip() {
                 </div>
               </div>
             ))}
-
-          {/* <div className="login-box">
-            <h2 className="login-title">
-              Đăng nhập ngay để nhận được nhiều quyền lợi dành cho thành viên
-            </h2>
-            <p className="login-text">
-              Khi đăng nhập và tải App, bạn sẽ dễ dàng quản lý đặt chỗ, hoặc
-              nhận thông tin khuyến mãi, và còn nhiều ưu đãi khác...
-            </p>
-            <button className="login-btn">Đăng nhập ngay</button>
-          </div> */}
         </div>
       </div>
       <Footer />
     </>
   );
 }
-
 export default Trip;
