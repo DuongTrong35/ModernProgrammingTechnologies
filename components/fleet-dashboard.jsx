@@ -13,6 +13,7 @@ import {
   ChevronDown,
   CircleHelp,
   Clock3,
+  Database,
   FileText,
   LayoutDashboard,
   MapPinned,
@@ -20,6 +21,7 @@ import {
   MoreHorizontal,
   Plus,
   Search,
+  Server,
   Settings2,
   ShieldCheck,
   SlidersHorizontal,
@@ -27,7 +29,6 @@ import {
   Users,
   X,
 } from "lucide-react";
-// import SeatLayoutEditor from "@/components/seat-layout-editor";
 import SeatLayoutEditor from "../components/seat-layout-editor";
 
 const sectionLabels = {
@@ -60,23 +61,35 @@ export default function FleetDashboard({
 }) {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState(null);
+
+  // Xác định nguồn dữ liệu từ cấu hình môi trường hoặc mặc định Mock Persistence
+  const dataSource = process.env.NEXT_PUBLIC_DATA_SOURCE || "LOCAL_PERSISTENCE";
+
   useEffect(() => {
     const user = localStorage.getItem("currentUser");
-
     if (user) {
-      setCurrentUser(JSON.parse(user));
+      // Đẩy việc set state ra khỏi lượt thực thi đồng bộ hiện tại của effect
+      setTimeout(() => {
+        try {
+          setCurrentUser(JSON.parse(user));
+        } catch (e) {
+          console.error("Lỗi parse currentUser:", e);
+        }
+      }, 0);
     }
   }, []);
+
   const [section, setSection] = useState(initialSection);
-  const [routes, setRoutes] = useState(initialData.routes);
-  const [trips, setTrips] = useState(initialData.trips);
-  const [buses, setBuses] = useState(initialData.buses);
-  const [operator, setOperator] = useState(initialData.operator);
+  const [routes, setRoutes] = useState(initialData?.routes || []);
+  const [trips, setTrips] = useState(initialData?.trips || []);
+  const [buses, setBuses] = useState(initialData?.buses || []);
+  const [operator, setOperator] = useState(initialData?.operator || {});
   const [query, setQuery] = useState("");
   const [tripFilter, setTripFilter] = useState("Tất cả trạng thái");
   const [createKind, setCreateKind] = useState(null);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [toast, setToast] = useState("");
+  const [toast, setToast] = useState({ message: "", isError: false });
+
   const visibleTrips = useMemo(
     () =>
       trips.filter((trip) => {
@@ -91,17 +104,21 @@ export default function FleetDashboard({
       }),
     [query, tripFilter, trips]
   );
+
   const title = sectionLabels[section];
+
   function navigateSection(nextSection) {
     setSection(nextSection);
     setMobileNavOpen(false);
     setQuery("");
     router.push(sectionPaths[nextSection]);
   }
-  function showToast(message) {
-    setToast(message);
-    window.setTimeout(() => setToast(""), 2800);
+
+  function showToast(message, isError = false) {
+    setToast({ message, isError });
+    window.setTimeout(() => setToast({ message: "", isError: false }), 3500);
   }
+
   async function saveNewRecord(event) {
     event.preventDefault();
     if (!createKind) return;
@@ -147,10 +164,11 @@ export default function FleetDashboard({
         navigateSection("trips");
       }
       setCreateKind(null);
-      showToast("Đã tạo dữ liệu nhà xe.");
+      showToast("Đã tạo dữ liệu nhà xe thành công.");
     } catch (error) {
       showToast(
-        error instanceof Error ? error.message : "Không thể tạo dữ liệu."
+        error instanceof Error ? error.message : "Không thể tạo dữ liệu.",
+        true
       );
     }
   }
@@ -177,11 +195,13 @@ export default function FleetDashboard({
       showToast("Đã cập nhật thông tin nhà xe.");
     } catch (error) {
       showToast(
-        error instanceof Error ? error.message : "Không thể cập nhật hồ sơ."
+        error instanceof Error ? error.message : "Không thể cập nhật hồ sơ.",
+        true
       );
     }
   }
 
+  // Cập nhật trạng thái chuyến xe có bắt lỗi nghiệp vụ (422) và cập nhật trace log
   async function changeTripStatus(tripId, status) {
     try {
       const response = await fetch("/api/manager/routes", {
@@ -190,19 +210,33 @@ export default function FleetDashboard({
         body: JSON.stringify({ kind: "trip", id: tripId, status }),
       });
       const result = await response.json();
-      if (!response.ok)
-        throw new Error(result.error || "Không thể cập nhật trạng thái.");
+
+      if (!response.ok) {
+        // Đọc thông báo lỗi từ status transition validator (HTTP 422 hoặc 400)
+        const errorMsg =
+          result.errors?.status ||
+          result.error ||
+          `Lỗi ${response.status}: Chuyển trạng thái thất bại.`;
+        throw new Error(errorMsg);
+      }
+
+      // Cập nhật state UI
       setTrips((current) =>
         current.map((trip) => (trip.id === tripId ? result.data : trip))
       );
+      
+      const traceInfo = result.trace
+        ? ` (${result.trace.previousStatus} → ${result.trace.currentStatus})`
+        : "";
+      showToast(`Cập nhật trạng thái thành công!${traceInfo}`);
     } catch (error) {
       showToast(
-        error instanceof Error
-          ? error.message
-          : "Không thể cập nhật trạng thái."
+        error instanceof Error ? error.message : "Không thể cập nhật trạng thái.",
+        true
       );
     }
   }
+
   return (
     <div className="app-shell min-h-screen">
       <aside className={`sidebar ${mobileNavOpen ? "sidebar-open" : ""}`}>
@@ -244,7 +278,7 @@ export default function FleetDashboard({
             >
               <Icon size={18} strokeWidth={1.8} />
               <span>{sectionLabels[id]}</span>
-              {id === "trips" && <span className="nav-count">12</span>}
+              {id === "trips" && <span className="nav-count">{trips.length}</span>}
             </button>
           ))}
         </nav>
@@ -282,10 +316,11 @@ export default function FleetDashboard({
             className="user-profile"
             onClick={() => navigateSection("profile")}
           >
-            <div className="user-avatar">MA</div>
+            <div className="user-avatar">
+              {currentUser?.name ? currentUser.name.slice(0, 2).toUpperCase() : "AD"}
+            </div>
             <div>
-              <strong>{currentUser?.name || "Minh Anh"}</strong>{" "}
-              {/* <span>Quản trị viên</span> */}
+              <strong>{currentUser?.name || "Minh Anh"}</strong>
               <span>
                 {currentUser?.role === "admin"
                   ? "Quản trị viên"
@@ -321,7 +356,32 @@ export default function FleetDashboard({
             <span>/</span>
             <strong>{title}</strong>
           </div>
+
           <div className="topbar-actions">
+            {/* Badge hiển thị nguồn dữ liệu để minh họa rõ trong báo cáo */}
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "4px 10px",
+                borderRadius: "9999px",
+                fontSize: "12px",
+                fontWeight: "500",
+                backgroundColor:
+                  dataSource === "REMOTE" ? "rgba(16, 185, 129, 0.12)" : "rgba(245, 158, 11, 0.12)",
+                color: dataSource === "REMOTE" ? "#059669" : "#d97706",
+                border:
+                  dataSource === "REMOTE"
+                    ? "1px solid rgba(16, 185, 129, 0.3)"
+                    : "1px solid rgba(245, 158, 11, 0.3)",
+              }}
+              title="Cơ chế dữ liệu đang được cấu hình"
+            >
+              {dataSource === "REMOTE" ? <Server size={14} /> : <Database size={14} />}
+              <span>{dataSource === "REMOTE" ? "Remote API" : "Mock Persistence (File JSON)"}</span>
+            </div>
+
             <label className="global-search">
               <Search size={17} />
               <input
@@ -341,7 +401,7 @@ export default function FleetDashboard({
               className="help-button"
               aria-label="Hướng dẫn"
               onClick={() =>
-                showToast("Tài liệu vận hành sẽ sớm có mặt tại đây.")
+                showToast("Tài liệu vận hành hệ thống Next.js.")
               }
             >
               <CircleHelp size={18} />
@@ -352,7 +412,7 @@ export default function FleetDashboard({
         <div className="page-content">
           <div className="page-heading">
             <div>
-              <span className="eyebrow">THỨ BẢY, 10 THÁNG 10, 2026</span>
+              <span className="eyebrow">HỆ THỐNG VẬN HÀNH NEXT.JS APP ROUTER</span>
               <h1>
                 {section === "overview"
                   ? `Chào buổi sáng, ${currentUser?.name || "Minh Anh"}`
@@ -431,10 +491,10 @@ export default function FleetDashboard({
           <footer className="page-footer">
             <span>© 2026 TAYDO Bus Lines</span>
             <span>
-              <i className="live-dot" /> Hệ thống đang hoạt động ổn định
+              <i className="live-dot" /> Nguồn dữ liệu: {dataSource}
             </span>
-            <button onClick={() => showToast("Phiên bản giao diện 1.0.0")}>
-              Phiên bản 1.0.0
+            <button onClick={() => showToast("Phiên bản Next.js 16.3.5")}>
+              Next.js App Router 16
             </button>
           </footer>
         </div>
@@ -448,11 +508,22 @@ export default function FleetDashboard({
           onSubmit={saveNewRecord}
         />
       )}
-      {toast && (
-        <div className="toast-message" role="status">
-          <Check size={17} />
-          {toast}
-          <button onClick={() => setToast("")} aria-label="Đóng thông báo">
+      {toast.message && (
+        <div
+          className="toast-message"
+          role="status"
+          style={{
+            borderColor: toast.isError ? "#ef4444" : undefined,
+            backgroundColor: toast.isError ? "#fef2f2" : undefined,
+            color: toast.isError ? "#b91c1c" : undefined,
+          }}
+        >
+          {toast.isError ? <X size={17} /> : <Check size={17} />}
+          <span>{toast.message}</span>
+          <button
+            onClick={() => setToast({ message: "", isError: false })}
+            aria-label="Đóng thông báo"
+          >
             <X size={15} />
           </button>
         </div>
@@ -460,6 +531,7 @@ export default function FleetDashboard({
     </div>
   );
 }
+
 function sectionDescription(section) {
   return {
     overview: "Tổng quan hoạt động và lịch khởi hành trong ngày.",
@@ -469,6 +541,7 @@ function sectionDescription(section) {
     profile: "Thông tin liên hệ, chính sách và hồ sơ nhà xe.",
   }[section];
 }
+
 function Overview({ routes, trips, buses, onGo }) {
   const departureCount = trips.filter(
     (trip) => trip.status !== "Đã hủy" && trip.status !== "Đã khởi hành"
@@ -610,6 +683,7 @@ function Overview({ routes, trips, buses, onGo }) {
     </>
   );
 }
+
 function MetricCard({ label, value, detail, icon, trend, positive }) {
   return (
     <article className="metric-card">
@@ -633,6 +707,7 @@ function MetricCard({ label, value, detail, icon, trend, positive }) {
     </article>
   );
 }
+
 function TripRow({ trip }) {
   return (
     <tr>
@@ -667,6 +742,7 @@ function TripRow({ trip }) {
     </tr>
   );
 }
+
 function StatusBadge({ status }) {
   const className =
     status === "Đang mở bán" || status === "Đang hoạt động"
@@ -685,6 +761,7 @@ function StatusBadge({ status }) {
     </span>
   );
 }
+
 function RoutesView({ routes, query, onCreate }) {
   const filtered = routes.filter((route) =>
     `${route.origin} ${route.destination} ${route.id}`
@@ -765,6 +842,7 @@ function RoutesView({ routes, query, onCreate }) {
     </section>
   );
 }
+
 function TripsView({ trips, filter, onFilter, onCreate, onStatusChange }) {
   return (
     <section className="panel management-panel">
@@ -889,6 +967,7 @@ function TripsView({ trips, filter, onFilter, onCreate, onStatusChange }) {
     </section>
   );
 }
+
 function FleetView({ buses, onCreate }) {
   const [selectedBusId, setSelectedBusId] = useState(buses[0]?.id ?? "");
   const selectedBus = buses.find((bus) => bus.id === selectedBusId) ?? buses[0];
@@ -962,7 +1041,7 @@ function FleetView({ buses, onCreate }) {
             <span className="eyebrow">TÀI XẾ PHỤ TRÁCH</span>
             <div className="driver-row">
               <div className="driver-avatar">
-                {selectedBus?.driver.split(" ").slice(-1)[0].slice(0, 1)}
+                {selectedBus?.driver ? selectedBus.driver.split(" ").slice(-1)[0].slice(0, 1) : "TX"}
               </div>
               <div>
                 <strong>{selectedBus?.driver}</strong>
@@ -985,6 +1064,7 @@ function FleetView({ buses, onCreate }) {
     </>
   );
 }
+
 function ProfileView({ operator, onSave }) {
   return (
     <div className="profile-layout">
@@ -1057,6 +1137,7 @@ function ProfileView({ operator, onSave }) {
     </div>
   );
 }
+
 function CreateDialog({ kind, routes, onClose, onSubmit }) {
   const labels = {
     route: "Thêm tuyến đường",
@@ -1165,7 +1246,7 @@ function CreateDialog({ kind, routes, onClose, onSubmit }) {
             <>
               <label className="field">
                 <span>Tuyến đường</span>
-                <select defaultValue={routes[0]?.id} name="route">
+                <select defaultValue={routes[0]?.id} name="routeId">
                   {routes.map((route) => (
                     <option key={route.id} value={route.id}>
                       {route.origin} → {route.destination}
@@ -1213,13 +1294,14 @@ function CreateDialog({ kind, routes, onClose, onSubmit }) {
             </button>
           </div>
           <p className="demo-disclaimer">
-            Bản ghi được thêm vào phiên xem trước, chưa ghi xuống cơ sở dữ liệu.
+            Bản ghi được lưu trữ tự động vào file dữ liệu JSON bền vững của máy chủ.
           </p>
         </form>
       </section>
     </div>
   );
 }
+
 function Field({ label, name, placeholder, type = "text", required = true }) {
   return (
     <label className="field">
@@ -1233,6 +1315,7 @@ function Field({ label, name, placeholder, type = "text", required = true }) {
     </label>
   );
 }
+
 function EmptyState({ message }) {
   return (
     <div className="empty-state">

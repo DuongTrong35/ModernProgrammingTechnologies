@@ -1,5 +1,8 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import "./Trips.css";
 
 // Định nghĩa kiểu dữ liệu cho một chuyến xe (Trip)
@@ -13,14 +16,9 @@ interface TripItem {
   giave: number;
 }
 
-// Định nghĩa kiểu dữ liệu cho state được truyền qua react-router-dom
-interface LocationState {
-  id?: string;
-}
-
 // 📌 FAKE DATABASE: Lưu trữ dữ liệu giả lập cho các tuyến xe theo route id
 const fakeDatabase: Record<string, TripItem[]> = {
-  "PTHCMX1": [
+  PTHCMX1: [
     {
       busid: "BUS_001",
       diemdi: "TP. Hồ Chí Minh",
@@ -40,7 +38,7 @@ const fakeDatabase: Record<string, TripItem[]> = {
       giave: 400000,
     },
   ],
-  "PTHCMX2": [
+  PTHCMX2: [
     {
       busid: "BUS_003",
       diemdi: "TP. Hồ Chí Minh",
@@ -63,14 +61,11 @@ const fakeDatabase: Record<string, TripItem[]> = {
 };
 
 function Trips() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  
-  // Ép kiểu cho state lấy từ useLocation
-  const state = location.state as LocationState;
-  const id = state?.id || "PTHCMX1"; // Mặc định lấy PTHCMX1 nếu không truyền state để test dễ hơn
-  
-  console.log("Gửi qua:", id); // <-- kiểm tra lần 1
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Đọc query param 'id' từ URL (ví dụ: /trips?id=PTHCMX1)
+  const id = searchParams.get("id") || "PTHCMX1";
 
   const [dstrip, setdstrip] = useState<TripItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -80,11 +75,8 @@ function Trips() {
     const fetchTrip = async () => {
       setLoading(true);
       try {
-        // 🔄 THAY THẾ AXIOS BẰNG FAKE DATABASE GỌI LẤY DỮ LIỆU
-        // Giả lập độ trễ mạng nhẹ (500ms) cho giống gọi API thực tế
         await new Promise((resolve) => setTimeout(resolve, 500));
 
-        // Lấy dữ liệu từ fakeDatabase dựa vào id, nếu không có trả về mảng rỗng
         const resultData = fakeDatabase[id] || [
           {
             busid: "BUS_DEFAULT",
@@ -94,11 +86,10 @@ function Trips() {
             gioden: "22:00",
             thoigian: 14,
             giave: 650000,
-          }
+          },
         ];
 
-        console.log("Kết quả Fake API:", resultData);
-        setdstrip(resultData); // <-- PHẢI LÀ MẢNG
+        setdstrip(resultData);
       } catch (err: any) {
         console.error(err);
         setError(err.message || "Đã xảy ra lỗi khi tải dữ liệu.");
@@ -116,7 +107,7 @@ function Trips() {
     <>
       <header className="ld-header">
         <div className="ld-header-inner">
-          <Link to="/" className="ld-logo">
+          <Link href="/" className="ld-logo">
             <div className="ld-logo-square">LD</div>
             <div className="ld-logo-text">
               <div className="ld-logo-title">Long Distance Bus</div>
@@ -137,10 +128,16 @@ function Trips() {
           </nav>
 
           <div className="ld-header-auth">
-            <Link to="/login" className="ld-header-btn ld-header-btn--ghost">
+            <Link
+              href="/authenticator/login-user"
+              className="ld-header-btn ld-header-btn--ghost"
+            >
               Đăng nhập
             </Link>
-            <Link to="/register" className="ld-header-btn ld-header-btn--solid">
+            <Link
+              href="/authenticator/register-user"
+              className="ld-header-btn ld-header-btn--solid"
+            >
               Đăng ký
             </Link>
           </div>
@@ -194,10 +191,15 @@ function Trips() {
             {dstrip[0]?.diemdi} - {dstrip[0]?.diemden} ({dstrip.length})
           </h1>
 
-          {loading && <p style={{ textAlign: "center" }}>Đang tải dữ liệu chuyến đi...</p>}
-          {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
+          {loading && (
+            <p style={{ textAlign: "center" }}>Đang tải dữ liệu chuyến đi...</p>
+          )}
+          {error && (
+            <p style={{ color: "red", textAlign: "center" }}>{error}</p>
+          )}
 
-          {!loading && dstrip.length > 0 &&
+          {!loading &&
+            dstrip.length > 0 &&
             dstrip.map((trip, index) => (
               <div key={index} className="card">
                 <div className="card-row">
@@ -218,8 +220,8 @@ function Trips() {
                 </div>
 
                 <div className="tag-row">
-                  <span>• Phương Trang</span>
-                  <span>• {trip.thoigian} giờ chạy</span>
+                  <span>Phương Trang</span>
+                  <span>{trip.thoigian} giờ chạy</span>
                 </div>
 
                 <div className="price-row">
@@ -229,7 +231,7 @@ function Trips() {
 
                   <button
                     className="choose-btn"
-                    onClick={() => navigate("/ride", { state: { busid: trip.busid } })}
+                    onClick={() => router.push(`/trip-detail?busid=${trip.busid}`)}
                   >
                     Chọn chuyến
                   </button>
@@ -245,7 +247,12 @@ function Trips() {
               Khi đăng nhập và tải App, bạn sẽ dễ dàng quản lý đặt chỗ, hoặc
               nhận thông tin khuyến mãi, và còn nhiều ưu đãi khác...
             </p>
-            <button className="login-btn">Đăng nhập ngay</button>
+            <button
+              className="login-btn"
+              onClick={() => router.push("/authenticator/login-user")}
+            >
+              Đăng nhập ngay
+            </button>
           </div>
         </div>
       </div>

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import SiteHeader from "@/components/header";
-import SeatLayoutEditor from "@/components/seat-layout-editor";
-import { getManagerData } from "@/services/manager.service";
+import SiteHeader from "../../../components/header";
+import SeatLayoutEditor from "../../../components/seat-layout-editor";
+import { getManagerData } from "../../../services/manager.service";
 
 export default async function TripDetailPage({ params }) {
   const [{ id }, data] = await Promise.all([params, getManagerData()]);
