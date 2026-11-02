@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { formatCurrency } from "@/lib/utils";
+const formatCurrency = (amount) =>
+  new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(amount || 0);
 
 export default function TripCard({ trip, fare }) {
   return (

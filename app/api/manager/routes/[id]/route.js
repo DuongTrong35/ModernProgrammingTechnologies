@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { deleteManagerRoute, updateManagerRoute } from "@/services/manager.service";
+import { deleteManagerRoute, updateManagerRoute } from "../../../../../services/manager.service";
 
 export async function PUT(request, { params }) {
   const { id } = await params;

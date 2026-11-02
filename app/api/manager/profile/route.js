@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getManagerData, updateManagerProfile } from "@/services/manager.service";
+import { getManagerData, updateManagerProfile } from "../../../../services/manager.service";
 
 export async function GET() {
   const { operator } = await getManagerData();

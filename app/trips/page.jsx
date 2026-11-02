@@ -1,7 +1,7 @@
 import Link from "next/link";
-import SiteHeader from "@/components/header";
-import TripCard from "@/components/trip-card";
-import { getManagerData } from "@/services/manager.service";
+import SiteHeader from "../../components/header";
+import TripCard from "../../components/trip-card";
+import { getManagerData } from "../../services/manager.service";
 
 export default async function TripsPage({ searchParams }) {
   const [data, query] = await Promise.all([getManagerData(), searchParams]);
