@@ -3,24 +3,13 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-// import type { BusRoute } from "../../lib/bus-route/routes";
 import Header from "../header";
 import "./Busroute.css";
 
-// interface BusrouteClientProps {
-//   initialRoutes: BusRoute[];
-// }
-
 export default function BusrouteClient({ initialRoutes }) {
   const router = useRouter();
-
-  // =========================
-  // STATE
-  // =========================
-
   const [diemDiInput, setDiemDiInput] = useState("");
   const [diemDenInput, setDiemDenInput] = useState("");
-
   /*
    * Dữ liệu tuyến xe được lấy từ Server Component
    * page.tsx thông qua props initialRoutes.

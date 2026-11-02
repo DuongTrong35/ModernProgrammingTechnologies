@@ -9,6 +9,7 @@ import { useSearchParams } from "next/navigation";
 import Tripdetail from "../../lib/tripdetail-route/Tripdetail";
 import SeatData from "../../lib/tripdetail-route/SeatData";
 import RouteData from "../../lib/tripdetail-route/RouteData";
+
 function FindRide() {
   // const { state } = useLocation();
   // const id = state?.tripid;
@@ -480,8 +481,14 @@ function FindRide() {
               <div>
                 <span>Quý khách vui lòng có mặt tại Bến xe/Văn Phòng</span>
               </div>
-              <div style={{ display: "flex", gap: "6px", fontWeight: 600 }}>
+              {/* <div style={{ display: "flex", gap: "6px", fontWeight: 600 }}>
                 <span>{tripDetail?.benlen}</span>{" "}
+                <span style={{ color: "red" }}>
+                  Trước {tripDetail?.giokhoihang} {tripDetail?.ngaydi}
+                </span>
+              </div> */}
+              <div style={{ display: "flex", gap: "6px", fontWeight: 600 }}>
+                <span>{SelectedValueected || "Chưa chọn"}</span>
                 <span style={{ color: "red" }}>
                   Trước {tripDetail?.giokhoihang} {tripDetail?.ngaydi}
                 </span>

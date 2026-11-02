@@ -82,27 +82,31 @@ export default function SiteHeader() {
           <div className="ld-header-auth">
             {currentUser ? (
               <>
-                <div
-                  className="ld-user"
-                  style={{ fontWeight: "600", fontSize: "20px" }}
-                >
-                  {currentUser.name}
+                <div className="ld-user-box">
+                  <div className="ld-user-avatar">
+                    {currentUser.name.charAt(0).toUpperCase()}
+                  </div>
+
+                  <div className="ld-user-info">
+                    <span className="ld-user-label">Xin chào</span>
+                    <span className="ld-user-name">{currentUser.name}</span>
+                  </div>
+
+                  <button
+                    className="ld-logout-btn"
+                    onClick={() => {
+                      localStorage.removeItem("currentUser");
+                      localStorage.removeItem("users");
+                      localStorage.removeItem("role");
+                      localStorage.removeItem("isLoggedIn");
+
+                      document.cookie = "loggedIn=; Max-Age=0; path=/";
+                      location.reload();
+                    }}
+                  >
+                    Đăng xuất
+                  </button>
                 </div>
-
-                <button
-                  onClick={() => {
-                    localStorage.removeItem("currentUser");
-                    localStorage.removeItem("users");
-                    localStorage.removeItem("role");
-                    localStorage.removeItem("isLoggedIn");
-                 
-
-                    document.cookie = "loggedIn=; Max-Age=0; path=/";
-                    location.reload();
-                  }}
-                >
-                  Đăng xuất
-                </button>
               </>
             ) : (
               <>
