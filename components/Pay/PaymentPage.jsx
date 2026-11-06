@@ -33,8 +33,7 @@ const methods = [
     name: "ZaloPay",
     logo: "/assets/images/zalopay.svg",
     qr: "/assets/images/q6.jpg",
-        selected: true,
-
+    selected: true,
   },
   {
     id: "vnpay",
@@ -83,26 +82,56 @@ const PaymentPage = () => {
   const [selectedMethod, setSelectedMethod] = useState(
     methods.find((m) => m.selected)
   );
+
+  const [isPaying, setIsPaying] = useState(false);
   // TIMER — phải đặt trong component
   const [timeLeft, setTimeLeft] = useState(120); // 15 phút
 
   useEffect(() => {
-    if (timeLeft <= 0) {
-      router.push("/");
-      return;
-    }
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => prev - 1);
-    }, 1000);
+  if (isPaying) return;
 
-    return () => clearInterval(timer);
-  }, [timeLeft, router]);
+  if (timeLeft <= 0) {
+    router.push("/");
+    return;
+  }
+
+  const timer = setInterval(() => {
+    setTimeLeft((prev) => prev - 1);
+  }, 1000);
+
+  return () => clearInterval(timer);
+}, [timeLeft, isPaying, router]);
+  // useEffect(() => {
+  //   if (timeLeft <= 0) {
+  //     router.push("/");
+  //     return;
+  //   }
+  //   const timer = setInterval(() => {
+  //     setTimeLeft((prev) => prev - 1);
+  //   }, 1000);
+
+  //   return () => clearInterval(timer);
+  // }, [timeLeft, router]);
   const formatTime = (sec) => {
     const m = Math.floor(sec / 60)
       .toString()
       .padStart(2, "0");
     const s = (sec % 60).toString().padStart(2, "0");
     return `${m}:${s}`;
+  };
+
+  const handlePaymentSuccess = () => {
+    if (isPaying) return;
+
+    setIsPaying(true);
+
+    setTimeout(() => {
+      alert("🎉 Thanh toán thành công!\nCảm ơn bạn đã đặt vé tại Konoha Bus.");
+
+      sessionStorage.removeItem("paymentData");
+
+      router.push("/");
+    }, 2000);
   };
   const total = 294000;
   const ticketPrice = 300000;
@@ -120,7 +149,7 @@ const PaymentPage = () => {
 
     setCustomer(parsed.customer);
     setDepartureInfo(parsed.departureInfo);
-  }, []);
+  }, [router]);
   return (
     <>
       <div className="header-wrapper">
@@ -235,6 +264,24 @@ const PaymentPage = () => {
                 <li>Quét mã ở trang này và thanh toán</li>
               </ol>
             </div>
+            <div style={{ marginTop: "20px", textAlign: "center" }}>
+              <button
+                onClick={handlePaymentSuccess}
+                disabled={isPaying}
+                style={{
+                  width: "100%",
+                  padding: "14px",
+                  background: "#28a745",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "8px",
+                  fontSize: "16px",
+                  cursor: "pointer",
+                }}
+              >
+                {isPaying ? "Đang xử lý..." : "Tôi đã thanh toán"}
+              </button>
+            </div>
           </div>
         </div>
         <div className="pay-right">
@@ -308,8 +355,7 @@ const PaymentPage = () => {
           </div>
         </div>
       </div>
-            <Footer />
-      
+      <Footer />
     </>
   );
 };

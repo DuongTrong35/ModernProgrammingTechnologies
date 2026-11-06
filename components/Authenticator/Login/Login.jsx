@@ -93,7 +93,7 @@ export default function Login() {
         "currentUser",
         JSON.stringify(currentUser)
       );
-
+document.cookie = `user_role=${matchedUser.role}; path=/; max-age=86400; SameSite=Lax`;
       // 8. Lưu trạng thái đăng nhập phía Client
       localStorage.setItem("isLoggedIn", "true");
 
