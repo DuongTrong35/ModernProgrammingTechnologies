@@ -1,4 +1,4 @@
-import Trip from "../../components/FindRide/FindRide";
+import TripDetail from "../../components/FindRide/FindRide";
 export default function Page() {
-  return <Trip />;
+  return <TripDetail />;
 }

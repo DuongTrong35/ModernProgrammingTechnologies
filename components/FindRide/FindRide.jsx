@@ -312,11 +312,11 @@ function FindRide() {
             fontSize: "14px",
           }}
         >
-          <input
+          {/* <input
             type="checkbox"
             style={{ width: "16px", height: "16px", marginRight: "8px" }}
-          />
-          <span>
+          /> */}
+          {/* <span>
             <a
               href="#"
               style={{
@@ -329,7 +329,7 @@ function FindRide() {
               Chấp nhận điều khoản
             </a>
             đặt vé &amp; chính sách bảo mật thông tin của KONOHA BUS
-          </span>
+          </span> */}
         </div>
       </div>
 

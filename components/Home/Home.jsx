@@ -20,9 +20,8 @@ export default function Home() {
         </section>
 
         {/* ================= SEARCH BOX ================= */}
-        <section className="ld-search-wrapper">
+        {/* <section className="ld-search-wrapper">
           <div className="ld-search-box">
-            {/* SEARCH TOP */}
             <div className="ld-search-top">
               <div className="ld-trip-types">
                 <label className="ld-radio-item">
@@ -32,34 +31,24 @@ export default function Home() {
                     value="oneway"
                     defaultChecked
                   />
-
                   <span>Một chiều</span>
                 </label>
-
                 <label className="ld-radio-item">
                   <input type="radio" name="tripType" value="roundtrip" />
-
                   <span>Khứ hồi</span>
                 </label>
               </div>
-
               <button type="button" className="ld-buy-guide">
                 Hướng dẫn mua vé
               </button>
             </div>
-
-            {/* ================= SEARCH FORM ================= */}
             <div className="ld-search-form">
-              {/* Điểm đi */}
               <div className="ld-search-field">
                 <label>Điểm đi</label>
-
                 <div className="ld-input-box">
                   <input type="text" placeholder="Chọn điểm đi" />
                 </div>
               </div>
-
-              {/* Nút đổi điểm */}
               <button
                 type="button"
                 className="ld-swap-button"
@@ -67,29 +56,20 @@ export default function Home() {
               >
                 ⇄
               </button>
-
-              {/* Điểm đến */}
               <div className="ld-search-field">
                 <label>Điểm đến</label>
-
                 <div className="ld-input-box">
                   <input type="text" placeholder="Chọn điểm đến" />
                 </div>
               </div>
-
-              {/* Ngày đi */}
               <div className="ld-search-field">
                 <label>Ngày đi</label>
-
                 <div className="ld-input-box">
                   <input type="date" />
                 </div>
               </div>
-
-              {/* Số vé */}
               <div className="ld-search-field">
                 <label>Số vé</label>
-
                 <div className="ld-input-box">
                   <select defaultValue="1">
                     <option value="1">1 vé</option>
@@ -101,15 +81,13 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
-            {/* ================= SEARCH BUTTON ================= */}
             <div className="ld-search-button-wrapper">
               <button type="button" className="ld-search-button">
                 Tìm chuyến xe
               </button>
             </div>
           </div>
-        </section>
+        </section> */}
 
         <div className="popularroute">
           <h1

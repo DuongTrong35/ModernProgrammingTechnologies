@@ -44,7 +44,7 @@ export default function SiteHeader() {
             <Link
               href="/bus-route"
               className={`ld-nav-link ${
-                pathname === "/bus-route" || pathname === "/trip-route"
+                pathname === "/bus-route"
                   ? "ld-nav-link--active"
                   : ""
               }`}
@@ -52,30 +52,28 @@ export default function SiteHeader() {
               Lịch trình
             </Link>
 
-            <Link href="/checkticket-route" className="ld-nav-link">
+            <Link href="/checkticket-route"
+            className={`ld-nav-link ${
+                pathname === "/checkticket-route"
+                  ? "ld-nav-link--active"
+                  : ""
+              }`}
+            >
               Tra cứu vé
             </Link>
 
             <Link
               href="/new-route"
               className={`ld-nav-link ${
-                pathname === "/news" ? "ld-nav-link--active" : ""
+                pathname === "/new-route" ? "ld-nav-link--active" : ""
               }`}
             >
               Tin tức
             </Link>
 
-            <Link href="/invoices" className="ld-nav-link">
-              Hóa đơn
-            </Link>
+           
 
-            <Link href="/contact" className="ld-nav-link">
-              Liên hệ
-            </Link>
-
-            <Link href="/about" className="ld-nav-link">
-              Về chúng tôi
-            </Link>
+            
           </nav>
 
           {/* AUTH */}
