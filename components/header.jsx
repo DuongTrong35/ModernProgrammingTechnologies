@@ -116,7 +116,7 @@ export default function SiteHeader() {
                 </Link>
 
                 <Link
-                  href="/components/Authenticator/Register"
+                  href="authenticator/register-user"
                   className="ld-header-btn ld-header-btn--solid"
                 >
                   Đăng ký

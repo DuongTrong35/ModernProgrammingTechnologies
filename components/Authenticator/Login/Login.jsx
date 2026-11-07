@@ -153,7 +153,7 @@ document.cookie = `user_role=${matchedUser.role}; path=/; max-age=86400; SameSit
         </div>
 
         <div className="auth-header-right">
-          <span className="auth-header-link">
+          {/* <span className="auth-header-link">
             <span
               style={{
                 width: 22,
@@ -169,7 +169,7 @@ document.cookie = `user_role=${matchedUser.role}; path=/; max-age=86400; SameSit
               ⬇
             </span>
             Tải ứng dụng
-          </span>
+          </span> */}
 
           <span className="auth-download-pill">
             Hỗ trợ 24/7
@@ -360,7 +360,7 @@ document.cookie = `user_role=${matchedUser.role}; path=/; max-age=86400; SameSit
               </button>
 
               {/* ================= FORGOT PASSWORD ================= */}
-              <div className="auth-forgot-row">
+              {/* <div className="auth-forgot-row">
                 <Link
                   href="/authenticator/forgot-user"
                   className="auth-link"
@@ -368,7 +368,7 @@ document.cookie = `user_role=${matchedUser.role}; path=/; max-age=86400; SameSit
                 >
                   Quên mật khẩu?
                 </Link>
-              </div>
+              </div> */}
             </form>
 
             {/* ================= BACK ================= */}

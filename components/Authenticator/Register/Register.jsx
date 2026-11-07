@@ -109,23 +109,6 @@ export default function Register() {
         </div>
 
         <div className="auth-header-right">
-          <span className="auth-header-link">
-            <span
-              style={{
-                width: 22,
-                height: 22,
-                borderRadius: "999px",
-                border: "1px solid rgba(255,255,255,0.7)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 12,
-              }}
-            >
-              ↓
-            </span>
-            Tải ứng dụng
-          </span>
 
           <span className="auth-download-pill">Hỗ trợ 24/7</span>
         </div>

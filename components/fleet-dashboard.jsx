@@ -245,8 +245,8 @@ export default function FleetDashboard({
             <Bus size={21} strokeWidth={2.4} />
           </div>
           <div>
-            <strong>TAYDO</strong>
-            <span>BUS LINES</span>
+            <strong>KONOHA</strong>
+            <span>BUS</span>
           </div>
           <button
             className="sidebar-close icon-button"
@@ -260,7 +260,7 @@ export default function FleetDashboard({
         <div className="workspace-switcher">
           <div className="workspace-avatar">TD</div>
           <div className="workspace-copy">
-            <strong>TAYDO Bus Lines</strong>
+            <strong>Konoha Bus</strong>
             <span>Nhà xe đối tác</span>
           </div>
           <ChevronDown size={15} />
@@ -489,7 +489,7 @@ export default function FleetDashboard({
           )}
 
           <footer className="page-footer">
-            <span>© 2026 TAYDO Bus Lines</span>
+            <span>© 2026 Konoha Bus</span>
             <span>
               <i className="live-dot" /> Nguồn dữ liệu: {dataSource}
             </span>
@@ -1117,7 +1117,7 @@ function ProfileView({ operator, onSave }) {
         </div>
         <span className="eyebrow">TRẠNG THÁI HỒ SƠ</span>
         <h3>Nhà xe đã xác thực</h3>
-        <p>Hồ sơ của bạn đã được đội ngũ TAYDO kiểm tra và phê duyệt.</p>
+        <p>Hồ sơ của bạn đã được đội ngũ Konoha Bus kiểm tra và phê duyệt.</p>
         <div className="verification-line">
           <span>Thông tin doanh nghiệp</span>
           <Check size={16} />
@@ -1159,7 +1159,7 @@ function CreateDialog({ kind, routes, onClose, onSubmit }) {
       >
         <div className="modal-heading">
           <div>
-            <span className="eyebrow">TAYDO · QUẢN LÝ NHÀ XE</span>
+            <span className="eyebrow">Konoha Bus · QUẢN LÝ NHÀ XE</span>
             <h2 id="modal-title">{labels[kind]}</h2>
           </div>
           <button className="icon-button" onClick={onClose} aria-label="Đóng">
